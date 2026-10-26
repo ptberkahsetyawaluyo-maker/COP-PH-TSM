@@ -1,0 +1,54 @@
+{
+  "entities": {
+    "HistoryItem": {
+      "title": "COP Report History",
+      "description": "A single saved COP report entry",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "uid": { "type": "string", "description": "User ID of the creator" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "startDate": { "type": "string" },
+        "endDate": { "type": "string" },
+        "picName": { "type": "string" },
+        "totalCOP": { "type": "number" },
+        "transfer": { "type": "number" },
+        "dusCash": { "type": "number" },
+        "feederPH": { "type": "number" },
+        "feederCiamis": { "type": "number" },
+        "etoll": { "type": "number" },
+        "bensinVan": { "type": "number" },
+        "parkir": { "type": "number" },
+        "additionalExpenses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "name": { "type": "string" },
+              "amount": { "type": "number" }
+            }
+          }
+        },
+        "prevStartDate": { "type": "string" },
+        "prevEndDate": { "type": "string" },
+        "prevSisaSetoran": { "type": "number" },
+        "totalSetor": { "type": "number" },
+        "totalSisa": { "type": "number" },
+        "totalCashBersih": { "type": "number" },
+        "sisaSetorBaru": { "type": "number" },
+        "danaTidakTersetor": { "type": "number" },
+        "keteranganDana": { "type": "string" },
+        "keteranganSisaSetoran": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "createdAt", "startDate", "endDate", "picName"]
+    }
+  },
+  "firestore": {
+    "history": {
+      "schema": "HistoryItem",
+      "description": "Collection of all COP reports"
+    }
+  }
+}

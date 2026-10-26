@@ -1,0 +1,67 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: history
+    // Document ID: auto-generated
+    // Fields:
+    //   - createdAt: string (required) - ISO 8601 timestamp
+    //   - startDate: string (required) - Report start date
+    //   - endDate: string (required) - Report end date
+    //   - picName: string (required) - PIC Name
+    //   - totalCOP: number
+    //   - transfer: number
+    //   - dusCash: number
+    //   - feederPH: number
+    //   - feederCiamis: number
+    //   - etoll: number
+    //   - bensinVan: number
+    //   - parkir: number
+    //   - additionalExpenses: list of maps
+    //   - prevStartDate: string
+    //   - prevEndDate: string
+    //   - prevSisaSetoran: number
+    //   - totalSetor: number
+    //   - totalSisa: number
+    //   - totalCashBersih: number
+    //   - sisaSetorBaru: number
+    //
+    // ===============================================================
+
+    // Helper Functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isDocOwner() {
+      return isAuthenticated() && request.auth.uid == resource.data.uid;
+    }
+
+    function isValidHistoryItem(data) {
+      return data.createdAt is string &&
+             data.startDate is string &&
+             data.endDate is string &&
+             data.picName is string &&
+             data.picName.size() > 0 && data.picName.size() < 100;
+    }
+
+    match /history/{reportId} {
+      allow read: if true;
+      allow create: if true;
+      allow update: if true;
+      allow delete: if true;
+    }
+
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
